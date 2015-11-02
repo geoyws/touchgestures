@@ -1,7 +1,7 @@
 // TouchGestures only supports IE9+ currently
 // Might support IE8 and below in the future
 
-var TouchGestures = function() {
+var TouchGestures = function() { // feel free to tweak properties
   this.swipeDirection;
   this.startX;
   this.startY;
