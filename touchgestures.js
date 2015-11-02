@@ -7,9 +7,9 @@ var TouchGestures = function() {
   this.startY;
   this.distanceX;
   this.distanceY;
-  this.minSwipeDistance = 100; // required min distance
-  this.maxPerpendicularDistance = 50; // maximum distance allowed perpendicularly
-  this.allowedTime = 300; // 300ms
+  this.minSwipeDistance = 150; // required min distance
+  this.maxPerpendicularDistance = 100; // maximum distance allowed perpendicularly
+  this.allowedTime = 400; // 400ms
   this.elapsedTime;
   this.startTime;
   this.handleSwipe;
