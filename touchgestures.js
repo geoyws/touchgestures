@@ -79,6 +79,7 @@ TouchGestures.prototype.swipeDetect = function(element, callback) {
 
 var touchGestures = new TouchGestures(); // initialize it for use
 
+/* This is how you would use TouchGestures http://codepen.io/geoyws/pen/VvBZRV
 function ready(callback) {
   if (document.readyState != 'loading') { // in case the machine is so fast it is already loaded
     callback();
@@ -100,3 +101,4 @@ ready(function() {
     updateElement.innerHTML = swipeDirection.toUpperCase();
   });
 });
+*/
