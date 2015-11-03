@@ -1,14 +1,15 @@
 // TouchGestures only supports IE9+ currently
 // Might support IE8 and below in the future
+// Feel free to change the numbers and use the code
 
-var TouchGestures = function() { // feel free to tweak properties
+var TouchGestures = function() {
   this.swipeDirection;
   this.startX;
   this.startY;
   this.distanceX;
   this.distanceY;
-  this.minSwipeDistance = 150; // required min distance
-  this.maxPerpendicularDistance = 100; // maximum distance allowed perpendicularly
+  this.minSwipeDistance = 100; // required min distance
+  this.maxPerpendicularDistance = 50; // maximum distance allowed perpendicularly
   this.allowedTime = 400; // 400ms
   this.elapsedTime;
   this.startTime;
@@ -55,14 +56,8 @@ TouchGestures.prototype.swipeDetect = function(element, callback) {
   });
 
   ['touchmove', 'mousemove'].forEach(function (eventName) {
-    touchSurface.addEventListener(eventName, function(event) {
-      event.preventDefault(); // prevent scrolling within the div
-    }, false);
-  });
-
-  ['touchend', 'mouseup'].forEach(function (eventName) {
-    touchSurface.addEventListener(eventName, function(event) {
-      var touchObj = (eventName === 'touchend') ? event.changedTouches[0] : event;
+    document.addEventListener(eventName, function(event) { // this as to be attached to the document because the swipe could end anywhere and not just on the element
+      var touchObj = (eventName === 'touchmove') ? event.changedTouches[0] : event;
       that.distanceX = touchObj.pageX - that.startX;
       that.distanceY = touchObj.pageY - that.startY;
       that.elapsedTime = new Date().getTime() - that.startTime;
@@ -77,9 +72,31 @@ TouchGestures.prototype.swipeDetect = function(element, callback) {
         }
       }
       that.handleSwipe(that.swipeDirection);
-      event.preventDefault();
+      event.preventDefault(); // prevent scrolling within the div
     }, false);
   });
 };
 
 var touchGestures = new TouchGestures(); // initialize it for use
+
+function ready(callback) {
+  if (document.readyState != 'loading') { // in case the machine is so fast it is already loaded
+    callback();
+  } else if (document.addEventListener) { // in case the DOM isn't loaded yet and it is IE9+
+    document.addEventListener('DOMContentLoaded', callback);
+  } else {
+    document.attachEvent('onreadystatechange', function() { // backwards compatibility with IE
+      if (document.readyState != 'loading') {
+        callback();
+      }
+    });
+  }
+}
+
+ready(function() {
+  var element = document.getElementsByTagName('div')[0];
+  touchGestures.swipeDetect(element, function(swipeDirection) {
+    var updateElement = document.getElementsByTagName('update-element')[0];
+    updateElement.innerHTML = swipeDirection.toUpperCase();
+  });
+});
