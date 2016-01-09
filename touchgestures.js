@@ -62,6 +62,7 @@ TouchGestures.prototype.swipeDetect = function(element, callback) {
       that.distanceY = touchObj.pageY - that.startY;
       that.elapsedTime = new Date().getTime() - that.startTime;
       if (that.elapsedTime <= that.allowedTime) {
+        event.preventDefault(); // prevent scrolling within the div
         // checking conditions for horizontal swipe
         if (Math.abs(that.distanceX) >= that.minSwipeDistance && Math.abs(that.distanceY) <= that.maxPerpendicularDistance) {
           that.swipeDirection = (that.distanceX < 0) ? 'left' : 'right';
@@ -72,7 +73,6 @@ TouchGestures.prototype.swipeDetect = function(element, callback) {
         }
       }
       that.handleSwipe(that.swipeDirection);
-      event.preventDefault(); // prevent scrolling within the div
     }, false);
   });
 };
